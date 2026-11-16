@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pechinchou Ofertas · Achadinhos</title>
+<meta name="description" content="Os achadinhos de moda dos vídeos da Pechinchou Ofertas. Toque na peça para comprar.">
+<meta name="theme-color" content="#FFF7EF">
+<meta property="og:title" content="Pechinchou Ofertas · Achadinhos">
+<meta property="og:description" content="Toque na peça do vídeo para comprar.">
+<meta property="og:image" content="logo.png">
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FFF7EF; --card:#FFFFFF; --ink:#2B1A20; --mute:#8A7178; --line:#EFDCCF;
+    --vinho:#681B39; --coral:#F16B69;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{background:var(--bg);color:var(--ink);font-family:"DM Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+       line-height:1.35;padding:0 16px calc(32px + env(safe-area-inset-bottom))}
+  .wrap{max-width:1040px;margin:0 auto}
+  header{text-align:center;padding:28px 0 18px}
+  header img{width:72px;height:72px;border-radius:50%;display:block;margin:0 auto 10px;background:#fff}
+  h1{font-size:20px;font-weight:700;color:var(--vinho);letter-spacing:-.01em}
+  header p{font-size:14px;color:var(--mute);margin-top:4px}
+  .barra{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0 12px}
+  .busca{width:100%;height:44px;border:1px solid var(--line);border-radius:999px;background:var(--card);
+         padding:0 18px;font:inherit;font-size:15px;color:var(--ink);outline:none}
+  .busca:focus{border-color:var(--vinho)}
+  .cats{display:flex;gap:8px;overflow-x:auto;margin-top:10px;scrollbar-width:none}
+  .cats::-webkit-scrollbar{display:none}
+  .cat{flex:none;height:32px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:transparent;
+       font:inherit;font-size:13px;color:var(--ink);cursor:pointer}
+  .cat[aria-pressed="true"]{background:var(--vinho);border-color:var(--vinho);color:#fff}
+  .grade{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 12px;margin-top:6px}
+  @media(min-width:640px){.grade{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px 16px}}
+  @media(min-width:960px){.grade{grid-template-columns:repeat(4,minmax(0,1fr))}}
+  .peca{display:flex;flex-direction:column;text-decoration:none;color:inherit;border-radius:16px;scroll-margin-top:120px}
+  .foto{position:relative;aspect-ratio:3/4;border-radius:16px;overflow:hidden;background:#F3E6DB}
+  .foto img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+  .peca:hover .foto img{transform:scale(1.03)}
+  .num{position:absolute;top:8px;left:8px;background:rgba(255,255,255,.92);color:var(--vinho);font-size:12px;font-weight:700;
+       padding:3px 9px;border-radius:999px}
+  .nome{font-size:14px;font-weight:500;margin:8px 2px 8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+        overflow:hidden;min-height:2.7em}
+  .btn{margin-top:auto;height:38px;border-radius:999px;background:var(--coral);color:#fff;font-size:14px;font-weight:700;
+       display:flex;align-items:center;justify-content:center;gap:6px}
+  .peca:active .btn{opacity:.85}
+  .peca.alvo .foto{box-shadow:0 0 0 3px var(--vinho)}
+  .vazio{text-align:center;color:var(--mute);padding:48px 0;font-size:15px;display:none}
+  footer{text-align:center;color:var(--mute);font-size:12px;margin-top:36px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="logo.png" alt="Pechinchou Ofertas" width="72" height="72">
+    <h1>Pechinchou Ofertas</h1>
+    <p>Viu no vídeo? Ache pelo número e toque para comprar.</p>
+  </header>
+
+  <div class="barra">
+    <input class="busca" id="busca" type="search" inputmode="search" placeholder="Buscar pelo número ou nome da peça" aria-label="Buscar peça">
+    <div class="cats" id="cats" role="toolbar" aria-label="Categorias"></div>
+  </div>
+
+  <main class="grade" id="grade"></main>
+  <p class="vazio" id="vazio">Nenhuma peça encontrada.</p>
+
+  <footer>
+    Links de afiliado: posso receber uma comissão pelas compras, sem custo extra para você.<br>
+    Atualizado em 16/11/2026
+  </footer>
+</div>
+
+<script>
+const PRODUTOS = [{"n": 8, "nome": "Vestido chemise em crepinho", "cat": "Vestidos", "link": "https://s.shopee.com.br/8Kr8AILUmw", "foto": "fotos/8.jpg"}, {"n": 7, "nome": "Conjunto de alfaiataria com colete e short", "cat": "Conjuntos", "link": "https://s.shopee.com.br/40i920vvDD", "foto": "fotos/7.jpg"}, {"n": 6, "nome": "Conjunto anarruga short e blusa regata gola alta", "cat": "Conjuntos", "link": "https://s.shopee.com.br/1C0Ewwlss", "foto": "fotos/6.jpg"}, {"n": 5, "nome": "Conjunto alfaiataria short e regata peplum", "cat": "Conjuntos", "link": "https://s.shopee.com.br/5Au6OUp9tN", "foto": "fotos/5.jpg"}, {"n": 4, "nome": "Short ribana bubble com cinto e bolso", "cat": "Shorts e bermudas", "link": "https://s.shopee.com.br/4qHF6yjxBL", "foto": "fotos/4.jpg"}, {"n": 3, "nome": "Saia longa viscolinho cintura alta", "cat": "Saias", "link": "https://s.shopee.com.br/2gCkWwKHhF", "foto": "fotos/3.jpg"}, {"n": 2, "nome": "Calça capri plus size com viés frontal", "cat": "Calças", "link": "https://s.shopee.com.br/8VAXTYrhY3", "foto": "fotos/2.jpg"}, {"n": 1, "nome": "Bermuda liganet listrada cós elástico", "cat": "Shorts e bermudas", "link": "https://s.shopee.com.br/9pfv3mEgR9", "foto": "fotos/1.jpg"}];
+const grade = document.getElementById("grade"), busca = document.getElementById("busca"),
+      catsEl = document.getElementById("cats"), vazio = document.getElementById("vazio");
+let catAtiva = "Todas";
+
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const sem = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+
+grade.innerHTML = PRODUTOS.map(p => `
+  <a class="peca" id="p${p.n}" href="${esc(p.link)}" target="_blank" rel="noopener sponsored"
+     data-cat="${esc(p.cat)}" data-busca="${esc(sem(p.n + " " + p.nome))}">
+    <div class="foto">
+      ${p.foto ? `<img src="${esc(p.foto)}" alt="${esc(p.nome)}" loading="lazy" width="600" height="800">` : ""}
+      <span class="num">Nº ${p.n}</span>
+    </div>
+    <span class="nome">${esc(p.nome)}</span>
+    <span class="btn">Comprar na Shopee</span>
+  </a>`).join("");
+
+const cats = ["Todas", ...[...new Set(PRODUTOS.map(p => p.cat))].sort((a, b) => a.localeCompare(b, "pt"))];
+catsEl.innerHTML = cats.map(c => `<button class="cat" type="button" aria-pressed="${c === catAtiva}">${esc(c)}</button>`).join("");
+catsEl.style.display = cats.length > 2 ? "" : "none";
+catsEl.addEventListener("click", e => {
+  const b = e.target.closest(".cat"); if (!b) return;
+  catAtiva = b.textContent;
+  catsEl.querySelectorAll(".cat").forEach(x => x.setAttribute("aria-pressed", x === b));
+  filtrar();
+});
+
+function filtrar() {
+  const q = sem(busca.value.trim()).replace(/^n[ºo°]?\s*/, "");
+  let vis = 0;
+  grade.querySelectorAll(".peca").forEach(el => {
+    const n = el.id.slice(1);
+    const ok = (catAtiva === "Todas" || el.dataset.cat === catAtiva) &&
+               (!q || (/^\d+$/.test(q) ? n === q : el.dataset.busca.includes(q)));
+    el.style.display = ok ? "" : "none"; if (ok) vis++;
+  });
+  vazio.style.display = vis ? "none" : "block";
+}
+busca.addEventListener("input", filtrar);
+
+function irPara() {
+  const n = (location.hash.match(/\d+/) || [])[0]; if (!n) return;
+  const el = document.getElementById("p" + n); if (!el) return;
+  el.classList.add("alvo"); el.scrollIntoView({behavior: "smooth", block: "center"});
+}
+window.addEventListener("hashchange", irPara); irPara();
+</script>
+</body>
+</html>
